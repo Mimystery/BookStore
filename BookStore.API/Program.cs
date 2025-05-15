@@ -1,4 +1,6 @@
+using BookStore.Application.Services;
 using BookStrore.DataAccess;
+using BookStrore.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,13 +15,19 @@ builder.Services.AddDbContext<BookStoreDbContext>(
         options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(BookStoreDbContext)));
     });
 
+builder.Services.AddScoped<IBooksService, BooksService>();
+builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookStore API v1");
+    c.RoutePrefix = ""; // Откроет Swagger на главной странице
+});
+
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

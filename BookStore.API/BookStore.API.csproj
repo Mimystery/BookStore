@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookStore.Application\BookStore.Application.csproj" />
     <ProjectReference Include="..\BookStrore.DataAccess\BookStrore.DataAccess.csproj" />
   </ItemGroup>
 
