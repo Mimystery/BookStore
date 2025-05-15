@@ -55,8 +55,8 @@ export default function BooksPage(){
     }
 
     const openModal = () => {
-        setMode(Mode.Create); // <--- ВАЖНО!
-    setValues(defaultValues); // <--- сбрасываем значения
+        setMode(Mode.Create); 
+    setValues(defaultValues); 
     setIsModalOpen(true);
     }
     const closeModal = () => {

@@ -14,7 +14,8 @@ export const Books = ({books, handleDelete, handleOpen}: Props) => {
             {books.map((book) => (
                 <Card 
                 key={book.id} 
-                title ={<CardTitle title={book.title} price={book.price}/>} >
+                title ={<CardTitle title={book.title} price={book.price}/>} 
+                bordered={false}>
 
             <p>{book.description}</p>
             <div className="card__buttons">

@@ -23,7 +23,7 @@ export const createBook = async (bookrequest: BookRequest) => {
 };
 
 export const updateBook = async (id: string, bookRequest: BookRequest) => {
-    await fetch("https://localhost:7284/Books/${id}", {
+    await fetch(`https://localhost:7284/Books/${id}`, {
         method: "PUT",
         headers: {
             "content-type": "application/json",
@@ -33,7 +33,7 @@ export const updateBook = async (id: string, bookRequest: BookRequest) => {
 };
 
 export const deleteBook = async (id: string) => {
-    await fetch("https://localhost:7284/Books/${id}", {
+    await fetch(`https://localhost:7284/Books/${id}`, {
         method: "DELETE",
     });
 };
