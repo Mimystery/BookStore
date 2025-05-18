@@ -16,5 +16,6 @@ namespace BookStrore.DataAccess
         }
 
         public DbSet<BookEntity> Books { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
     }
 }

@@ -1,7 +1,13 @@
+using BooksStore.Infrastructure;
+using BookStore.API.Extencions;
+using BookStore.Application.Mappings;
 using BookStore.Application.Services;
+using BookStore.Core.Abstactions;
 using BookStrore.DataAccess;
 using BookStrore.DataAccess.Repositories;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,14 +15,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
+
 builder.Services.AddDbContext<BookStoreDbContext>(
     options =>
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(BookStoreDbContext)));
     });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IBooksService, BooksService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
+builder.Services.AddApiAuthentication(Options.Create(jwtOptions));
+
+builder.Services.AddAutoMapper(typeof(UserMappingProfile).Assembly);
 
 var app = builder.Build();
 
@@ -30,6 +51,15 @@ app.UseSwaggerUI(c =>
 
 
 app.UseHttpsRedirection();
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always
+});
+
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
