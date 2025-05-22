@@ -27,8 +27,7 @@ namespace BooksStore.Infrastructure.Authentication
 
             var claims = new List<Claim>
             {
-                new Claim("userId", user.Id.ToString()),
-                new Claim("Admin", "true"),
+                new Claim(CustomClaims.UserId, user.Id.ToString()),
             };
 
             var signingCredentials = new SigningCredentials(

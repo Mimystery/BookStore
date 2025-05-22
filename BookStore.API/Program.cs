@@ -4,6 +4,7 @@ using BookStore.API.Extencions;
 using BookStore.Application.Mappings;
 using BookStore.Application.Services;
 using BookStore.Core.Abstactions;
+using BookStore.Core.Enums;
 using BookStrore.DataAccess;
 using BookStrore.DataAccess.Repositories;
 using Microsoft.AspNetCore.CookiePolicy;
@@ -17,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
+builder.Services.Configure<AuthorizationOptions>(builder.Configuration.GetSection(nameof(AuthorizationOptions)));
 
 builder.Services.AddDbContext<BookStoreDbContext>(
     options =>
@@ -74,6 +76,21 @@ app.UseCors(x =>
 app.MapGet("get", () =>
 {
     return Results.Ok("Ok");
-}).RequireAuthorization("AdminPolicy");
+}).RequirePermissions(Permission.Read);
+
+app.MapPost("post", () =>
+{
+    return Results.Ok("Ok");
+}).RequirePermissions(Permission.Create);
+
+app.MapPut("put", () =>
+{
+    return Results.Ok("Ok");
+}).RequirePermissions(Permission.Update);
+
+app.MapDelete("delete", () =>
+{
+    return Results.Ok("Ok");
+}).RequirePermissions(Permission.Delete);
 
 app.Run();
