@@ -9,7 +9,7 @@ using BookStore.Core.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BooksStore.Infrastructure
+namespace BooksStore.Infrastructure.Authentication
 {
     public class JwtProvider : IJwtProvider
     {
@@ -23,10 +23,16 @@ namespace BooksStore.Infrastructure
 
         public string GenerateToken(User user)
         {
-            Claim[] claims = [new("userId", user.Id.ToString())];
+            //Claim[] claims = [new("userId", user.Id.ToString())];
+
+            var claims = new List<Claim>
+            {
+                new Claim("userId", user.Id.ToString()),
+                new Claim("Admin", "true"),
+            };
 
             var signingCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),SecurityAlgorithms.HmacSha256);
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)), SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 claims: claims,

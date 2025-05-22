@@ -1,5 +1,4 @@
-﻿
-namespace BooksStore.Infrastructure
+﻿namespace BooksStore.Infrastructure.Authentication
 {
     public class PasswordHasher : IPasswordHasher
     {

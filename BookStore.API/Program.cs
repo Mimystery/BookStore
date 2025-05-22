@@ -1,4 +1,5 @@
 using BooksStore.Infrastructure;
+using BooksStore.Infrastructure.Authentication;
 using BookStore.API.Extencions;
 using BookStore.Application.Mappings;
 using BookStore.Application.Services;
@@ -69,5 +70,10 @@ app.UseCors(x =>
     x.WithOrigins("http://localhost:3000");
     x.WithMethods().AllowAnyMethod();
 });
+
+app.MapGet("get", () =>
+{
+    return Results.Ok("Ok");
+}).RequireAuthorization("AdminPolicy");
 
 app.Run();

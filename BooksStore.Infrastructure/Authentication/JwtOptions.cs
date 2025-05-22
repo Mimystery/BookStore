@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BooksStore.Infrastructure
+namespace BooksStore.Infrastructure.Authentication
 {
     public class JwtOptions
     {

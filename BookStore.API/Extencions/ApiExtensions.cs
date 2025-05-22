@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using BooksStore.Infrastructure;
+using BooksStore.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -34,7 +34,13 @@ namespace BookStore.API.Extencions
                     };
                 });
 
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy =>
+                {
+                    policy.RequireClaim("Admin", "true");
+                });
+            });
         }
     }
 }
