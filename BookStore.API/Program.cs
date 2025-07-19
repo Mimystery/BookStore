@@ -3,8 +3,10 @@ using BooksStore.Infrastructure.Authentication;
 using BookStore.API.Extencions;
 using BookStore.Application.Mappings;
 using BookStore.Application.Services;
+using BookStore.BackgroundServices;
 using BookStore.Core.Abstactions;
 using BookStore.Core.Enums;
+using BookStore.Core.Options;
 using BookStrore.DataAccess;
 using BookStrore.DataAccess.Repositories;
 using Microsoft.AspNetCore.CookiePolicy;
@@ -17,6 +19,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<RabbitMqOptions>(builder.Configuration.GetSection(nameof(RabbitMqOptions)));
+builder.Services.AddHostedService<CreateBookConsumer>();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 builder.Services.Configure<AuthorizationOptions>(builder.Configuration.GetSection(nameof(AuthorizationOptions)));
 

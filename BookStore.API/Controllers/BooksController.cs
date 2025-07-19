@@ -14,7 +14,7 @@ namespace BookStore.API.Controllers
         private readonly IBooksService _booksService;
         public BooksController(IBooksService booksService) => _booksService = booksService;
 
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<BooksResponse>>> GetAllBooks()
         {
@@ -28,7 +28,7 @@ namespace BookStore.API.Controllers
 
             return Ok(response);
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateBook([FromBody] BooksRequest request)
         {
@@ -49,7 +49,7 @@ namespace BookStore.API.Controllers
             return Ok(bookId);
 
         }
-
+        [Authorize]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateBook(Guid id, [FromBody] BooksRequest request)
         {
@@ -57,7 +57,7 @@ namespace BookStore.API.Controllers
 
             return Ok(bookId);
         }
-
+        [Authorize]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteBook(Guid id)
         {
